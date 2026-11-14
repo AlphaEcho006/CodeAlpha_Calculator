@@ -1,0 +1,122 @@
+/* ---------- 1. COLOR VARIABLES ----------
+   Variables let us define a color once and reuse it everywhere.
+   Want a different accent later? Change it in ONE place. */
+:root {
+  --bg: #0f1115;            /* page background (near black) */
+  --calculator-bg: #171a21; /* calculator body */
+  --button: #232733;        /* normal buttons */
+  --button-hover: #2e3342;  /* normal buttons when hovered */
+  --text: #e8eaf0;          /* main text color */
+  --text-dim: #8b91a3;      /* softer text for the previous number */
+  --accent: #3ddc97;        /* mint green: our single accent color */
+  --accent-dark: #0f1115;   /* dark text that sits on top of mint */
+}
+
+/* ---------- 2. RESET ----------
+   Browsers add default spacing. This removes it so we start clean.
+   box-sizing makes width/height include padding, which is easier to reason about. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- 3. PAGE ----------
+   Flexbox with centering puts the calculator in the middle of the screen. */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---------- 4. CALCULATOR BODY ----------
+   min() picks the smaller value: 92% of screen width on phones,
+   but never wider than 360px. That is what makes it responsive. */
+.calculator {
+  width: min(92vw, 360px);
+  padding: 20px;
+  background: var(--calculator-bg);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- 5. DISPLAY ---------- */
+.display {
+  min-height: 110px;
+  padding: 12px 8px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;   /* pushes the text to the bottom */
+  align-items: flex-end;       /* and to the right, like a real calculator */
+  word-break: break-all;       /* long numbers wrap instead of overflowing */
+}
+
+.previous-operand {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  min-height: 1.4rem;          /* keeps the height stable when it is empty */
+}
+
+.current-operand {
+  font-size: 2.6rem;
+  font-weight: 600;
+}
+
+/* ---------- 6. BUTTON GRID ----------
+   A grid with 4 equal columns. "1fr" means "one share of the space". */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* ---------- 7. BUTTONS ---------- */
+.btn {
+  padding: 18px 0;
+  font-size: 1.3rem;
+  color: var(--text);
+  background: var(--button);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  /* transition makes color and size changes smooth instead of instant */
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: var(--button-hover);
+}
+
+/* :active is the moment you press the button: it shrinks slightly */
+.btn:active {
+  transform: scale(0.94);
+}
+
+/* Operators and function keys use the mint accent as text color */
+.btn-operator,
+.btn-function {
+  color: var(--accent);
+}
+
+/* The equals button is the main action, so it gets the solid mint fill.
+   grid-row: span 2 makes it tall, covering two rows. */
+.btn-equals {
+  background: var(--accent);
+  color: var(--accent-dark);
+  font-weight: 700;
+  grid-row: span 2;
+}
+
+.btn-equals:hover {
+  background: #5cf0b1;   /* slightly lighter mint on hover */
+}
+
+/* The zero button is wide, covering two columns */
+.btn-zero {
+  grid-column: span 2;
+}
